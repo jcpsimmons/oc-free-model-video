@@ -1,0 +1,100 @@
+---
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>OC-Free-Model-Video</title>
+    <style>
+      :root {
+        --bg: #0f0f12;
+        --surface: #1a1a22;
+        --border: #2a2a35;
+        --text: #e0e0e8;
+        --muted: #8888a0;
+        --accent: #82aaff;
+      }
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        background: var(--bg);
+        color: var(--text);
+        line-height: 1.6;
+        padding: 2rem 1rem;
+      }
+      main {
+        max-width: 680px;
+        margin: 0 auto;
+      }
+      h1 { font-size: 1.8rem; margin-bottom: 0.25rem; }
+      .subtitle { color: var(--muted); margin-bottom: 2rem; }
+      section { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 1.5rem; margin-bottom: 1.25rem; }
+      h2 { font-size: 1.15rem; margin-bottom: 0.75rem; color: var(--accent); }
+      p { margin-bottom: 0.75rem; }
+      pre {
+        background: var(--bg);
+        border: 1px solid var(--border);
+        border-radius: 6px;
+        padding: 1rem;
+        overflow-x: auto;
+        font-size: 0.9rem;
+        margin-bottom: 0.75rem;
+      }
+      code { font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.9em; }
+      ul { margin: 0.5rem 0 1rem 1.5rem; }
+      li { margin-bottom: 0.35rem; }
+      strong { color: var(--accent); }
+    </style>
+  </head>
+  <body>
+    <main>
+      <h1>OC-Free-Model-Video</h1>
+      <p class="subtitle">Use OpenRouter's free router in OpenCode for small coding tasks and experiments.</p>
+
+      <section>
+        <h2>1. Install OpenCode</h2>
+        <p>On macOS with Homebrew, run:</p>
+        <pre><code>brew install anomalyco/tap/opencode</code></pre>
+        <p>If you already have OpenCode, skip this step. Other platforms can use the installation guide.</p>
+      </section>
+
+      <section>
+        <h2>2. Connect your OpenRouter key</h2>
+        <p>Create an API key at OpenRouter. Then launch OpenCode:</p>
+        <pre><code>opencode</code></pre>
+        <p>Inside its terminal interface, type <code>/connect</code>, choose <strong>OpenRouter</strong>, and paste the key. OpenCode saves provider credentials separately from your config. See the provider instructions.</p>
+      </section>
+
+      <section>
+        <h2>3. Set the free router as your default</h2>
+        <p>Search and select it in the model picker.</p>
+      </section>
+
+      <section>
+        <h2>4. Test it</h2>
+        <p>Exit OpenCode and run:</p>
+        <pre><code>opencode models openrouter
+opencode run -m openrouter/openrouter/free "Reply with: setup works"</code></pre>
+        <p>The model list should include <code>openrouter/openrouter/free</code>. A reply confirms that authentication and routing work. These commands follow the CLI docs.</p>
+      </section>
+
+      <section>
+        <h2>5. Use it in a project</h2>
+        <p>From your project directory, start:</p>
+        <pre><code>opencode -m openrouter/openrouter/free</code></pre>
+        <p>Try a small task: "Read the README and explain how to run this project." Use <code>/models</code> to switch models later.</p>
+      </section>
+
+      <section>
+        <h2>If it fails</h2>
+        <ul>
+          <li>A model-not-found error usually means the model ID or config needs checking. Confirm the full ID above and restart OpenCode.</li>
+          <li>For an authentication error, reconnect your OpenRouter key with <code>/connect</code>.</li>
+          <li>Free inference still has request limits. A coding task can use several requests. If you get a 429, wait before retrying and follow any retry delay in the error.</li>
+        </ul>
+        <p>Docs checked September 30, 2026.</p>
+      </section>
+    </main>
+  </body>
+</html>
