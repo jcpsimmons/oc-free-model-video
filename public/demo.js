@@ -1,24 +1,24 @@
 // Free router demo — simulates model selection based on prompt characteristics
 const modelMap = {
-  "bug": ["Mistral 7B", "Gemma 2 9B"],
-  "fix": ["Mistral 7B", "Gemma 2 9B"],
-  "refactor": ["Qwen 2.5 7B", "Mistral 7B"],
-  "read": ["Gemma 2 9B", "Qwen 2.5 7B"],
-  "explain": ["Gemma 2 9B", "Qwen 2.5 7B"],
-  "css": ["Mistral 7B", "Gemma 2 9B"],
-  "animation": ["Mistral 7B", "Gemma 2 9B"],
-  "json": ["Qwen 2.5 7B", "Gemma 2 9B"],
-  "format": ["Qwen 2.5 7B", "Mistral 7B"],
-  "cli": ["Qwen 2.5 7B", "Mistral 7B"],
-  "api": ["Qwen 2.5 7B", "Mistral 7B"],
-  "generate": ["Qwen 2.5 7B", "Mistral 7B"],
-  "create": ["Qwen 2.5 7B", "Mistral 7B"],
+  "bug": ["Apodex 1.1 Mini", "LFM2.5 2.6B"],
+  "fix": ["Apodex 1.1 Mini", "LFM2.5 2.6B"],
+  "refactor": ["Nemotron 3.5 Lightning", "Apodex 1.1 Mini"],
+  "read": ["LFM2.5 2.6B", "Nemotron 3.5 Lightning"],
+  "explain": ["LFM2.5 2.6B", "Nemotron 3.5 Lightning"],
+  "css": ["Apodex 1.1 Mini", "LFM2.5 2.6B"],
+  "animation": ["Apodex 1.1 Mini", "LFM2.5 2.6B"],
+  "json": ["Nemotron 3.5 Lightning", "LFM2.5 2.6B"],
+  "format": ["Nemotron 3.5 Lightning", "Apodex 1.1 Mini"],
+  "cli": ["Nemotron 3.5 Lightning", "Apodex 1.1 Mini"],
+  "api": ["Nemotron 3.5 Lightning", "Apodex 1.1 Mini"],
+  "generate": ["Nemotron 3.5 Lightning", "Apodex 1.1 Mini"],
+  "create": ["Nemotron 3.5 Lightning", "Apodex 1.1 Mini"],
 };
 
 window.handleDemo = function() {
   const input = (document.getElementById("task-input").value || "").toLowerCase();
   const out = document.getElementById("demo-output");
-  let model = "Mistral 7B";
+  let model = "Apodex 1.1 Mini";
   let reason = "General-purpose free-tier default.";
   for (const [kw, models] of Object.entries(modelMap)) {
     if (input.includes(kw)) { model = models[0]; reason = "Matched keyword: " + kw; break; }
