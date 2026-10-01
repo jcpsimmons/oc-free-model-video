@@ -1,9 +1,13 @@
 {
   "models": [
-    { "name": "Mistral 7B", "toolCalling": true, "vision": false, "context": "8K", "use": "Simple tasks" },
-    { "name": "Gemma 2 9B", "toolCalling": true, "vision": false, "context": "8K", "use": "Coding help" },
-    { "name": "Qwen 2.5 7B", "toolCalling": true, "vision": false, "context": "32K", "use": "Long context" },
-    { "name": "Phi-3 Mini", "toolCalling": true, "vision": true, "context": "4K", "use": "Multimodal" }
+    { "name": "Apodex 1.1 Mini", "toolCalling": false, "vision": false, "context": "262K", "use": "General chat" },
+    { "name": "Nemotron 3.5 Lightning", "toolCalling": false, "vision": false, "context": "1M", "use": "Long context" },
+    { "name": "Space Bunny Alpha", "toolCalling": false, "vision": true, "context": "1M", "use": "Multimodal" },
+    { "name": "Inkling Small", "toolCalling": false, "vision": true, "context": "1M", "use": "Multimodal" },
+    { "name": "Qwen3.8 27B", "toolCalling": false, "vision": true, "context": "262K", "use": "Vision tasks" },
+    { "name": "Dots3-Note Preview", "toolCalling": false, "vision": true, "context": "512K", "use": "Vision tasks" },
+    { "name": "Ling 3.0 Flash Sante", "toolCalling": false, "vision": false, "context": "262K", "use": "General chat" },
+    { "name": "LFM2.5 2.6B", "toolCalling": false, "vision": false, "context": "65K", "use": "Small tasks" }
   ],
   "sections": [
     { "id": "1", "title": "Install OpenCode" },
@@ -12,11 +16,7 @@
     { "id": "4", "title": "Test it" },
     { "id": "5", "title": "Use it in a project" },
     { "id": "6", "title": "Model capability reference" },
-    { "id": "7", "title": "Free router demo" },
-    { "id": "8", "title": "Cost savings calculator" },
-    { "id": "9", "title": "Rate limit handling" },
-    { "id": "10", "title": "Starter projects" },
-    { "id": "11", "title": "If it fails" },
-    { "id": "12", "title": "More from Josh" }
+    { "id": "7", "title": "If it fails" },
+    { "id": "8", "title": "More from Josh" }
   ]
 }
