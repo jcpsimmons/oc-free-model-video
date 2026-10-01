@@ -142,12 +142,121 @@
 
       a:hover {
         color: var(--accent);
+        border-bottom: 1px solid var(--accent);
+        padding-bottom: 0.5px;
       }
 
       hr {
         border: 0;
         border-top: 1px solid var(--rule);
         margin: 2rem 0;
+      }
+
+      /* === New components === */
+
+      .demo-box {
+        background: var(--muted);
+        border: 1px solid var(--rule);
+        border-radius: 0.5rem;
+        padding: 1rem 1.25rem;
+        font-family: var(--font-mono);
+        font-size: 0.85em;
+        margin: 1.5rem 0;
+      }
+
+      .model-chip {
+        display: inline-block;
+        font-family: var(--font-mono);
+        font-size: 0.75rem;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        padding: 0.25rem 0.6rem;
+        border: 1px solid var(--rule);
+        border-radius: 0.3rem;
+        background: var(--ground);
+        color: var(--ink-soft);
+        margin: 0.2rem;
+      }
+
+      .cap-badge {
+        display: inline-block;
+        font-family: var(--sans);
+        font-size: 0.7rem;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        padding: 0.15rem 0.5rem;
+        margin-left: 0.3rem;
+        border-radius: 0.2rem;
+      }
+      .cap-yes { background: var(--muted); color: var(--ink); }
+      .cap-no { background: var(--ground); color: var(--ink-soft); }
+
+      table.cap-table {
+        width: 100%;
+        border-collapse: collapse;
+        font-family: var(--font-serif);
+        font-size: 1.0625rem;
+        line-height: 1.6;
+        margin: 1.5rem 0;
+      }
+      table.cap-table th,
+      table.cap-table td {
+        text-align: left;
+        padding: 0.6rem 0.5rem;
+        border-bottom: 1px solid var(--rule);
+        font-family: var(--font-mono);
+        font-size: 0.9rem;
+      }
+      table.cap-table th {
+        font-family: var(--font-sans);
+        font-size: 0.75rem;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        color: var(--ink-soft);
+      }
+      table.cap-table tr:hover td { background: var(--ground); }
+
+      .calc-result {
+        font-family: var(--font-mono);
+        font-size: 1.5rem;
+        font-weight: 500;
+        color: var(--accent);
+        text-align: center;
+        margin: 1rem 0;
+      }
+
+      .calc-input {
+        background: var(--ground);
+        border: 1px solid var(--rule);
+        border-radius: 0.3rem;
+        padding: 0.4rem 0.6rem;
+        font-family: var(--font-sans);
+        font-size: 0.9rem;
+        color: var(--ink);
+        width: 100px;
+        text-align: right;
+      }
+
+      .project-card {
+        background: var(--muted);
+        border: 1px solid var(--rule);
+        border-radius: 0.5rem;
+        padding: 1rem 1.25rem;
+        margin-bottom: 1rem;
+      }
+      .project-card h3 {
+        font-family: var(--font-display);
+        font-size: 1.2rem;
+        margin-bottom: 0.5rem;
+        color: var(--ink);
+      }
+      .project-card p { margin-bottom: 0.5rem; }
+
+      .grid-2col {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+        gap: 0.5rem;
+        margin: 1rem 0;
       }
 
       @media (prefers-color-scheme: dark) {
@@ -165,6 +274,7 @@
   </head>
   <body>
     <main>
+
       <h1>OC-Free-Model-Video</h1>
       <p class="subtitle">Use OpenRouter's free router in OpenCode for small coding tasks and experiments.</p>
 
@@ -192,7 +302,7 @@
         <p>Exit OpenCode and run:</p>
         <pre><code>opencode models openrouter
 opencode run -m openrouter/openrouter/free "Reply with: setup works"</code></pre>
-        <p>The model list should include <code>openrouter/openrouter/free</code>. A reply confirms that authentication and routing work. These commands follow the CLI docs.</p>
+        <p>The model list should include <code>openrouter/openrouter/free</code>. A reply confirms that authentication and routing work.</p>
       </section>
 
       <section>
@@ -203,14 +313,118 @@ opencode run -m openrouter/openrouter/free "Reply with: setup works"</code></pre
       </section>
 
       <section>
+        <h2>6. Model capability reference</h2>
+        <p>The free router dynamically selects models based on your request. Here are the capabilities you can expect from models commonly rotated in:</p>
+        <table class="cap-table">
+          <thead>
+            <tr><th style="text-align:center">Model</th><th style="text-align:center">Tool Calling</th><th style="text-align:center">Vision</th><th style="text-align:center">Context</th><th style="text-align:center">Typical Use</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Mistral 7B</td><td class="cap-yes">Yes</td><td class="cap-no">No</td><td>8K</td><td>Simple tasks</td></tr>
+            <tr><td>Gemma 2 9B</td><td class="cap-yes">Yes</td><td class="cap-no">No</td><td>8K</td><td>Coding help</td></tr>
+            <tr><td>Qwen 2.5 7B</td><td class="cap-yes">Yes</td><td class="cap-no">No</td><td>32K</td><td>Long context</td></tr>
+            <tr><td>Phi-3 Mini</td><td class="cap-yes">Yes</td><td class="cap-yes">Yes</td><td>4K</td><td>Multimodal</td></tr>
+          </tbody>
+        </table>
+        <p>Because the model can change between requests, always test critical capabilities like tool calling in your specific session. Use <code>/models</code> to pin to a specific model when you need consistency.</p>
+      </section>
+
+      <section>
+        <h2>7. Free router demo</h2>
+        <p>Type a sample prompt below to see how the free router would categorize it and which model it might select:</p>
+        <div class="demo-box">
+          <label for="task-input" style="font-family: var(--font-sans); font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--ink-soft);">Prompt</label><br />
+          <input id="task-input" type="text" placeholder="e.g. fix this bug" style="width: 100%; background: var(--ground); border: 1px solid var(--rule); border-radius: 0.25rem; padding: 0.4rem; font-family: var(--font-sans); color: var(--ink); margin: 0.5rem 0 1rem;" />
+          <button onclick="handleDemo()" style="font-family: var(--font-sans); font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--ink); background: var(--ground); border: 1px solid var(--rule); border-radius: 0.25rem; padding: 0.3rem 0.8rem; cursor: pointer;">Analyze</button>
+          <div id="demo-output" style="margin-top: 1rem;"></div>
+        </div>
+      </section>
+
+      <section>
+        <h2>8. Cost savings calculator</h2>
+        <p>Estimate your monthly savings by using the free router instead of a paid model like GPT-4o:</p>
+        <form id="calc-form" onsubmit="return handleCalc(event)">
+          <div class="grid-2col">
+            <div>
+              <label style="font-family: var(--font-mono); font-size: 0.75rem; color: var(--ink-soft);">Requests / day</label>
+              <input id="req-day" class="calc-input" type="number" value="20" />
+            </div>
+            <div>
+              <label style="font-family: var(--font-mono); font-size: 0.75rem; color: var(--ink-soft);">Tokens / req</label>
+              <input id="tok-req" class="calc-input" type="number" value="1500" />
+            </div>
+          </div>
+          <div style="margin: 1rem 0;">
+            <label style="font-family: var(--font-mono); font-size: 0.75rem; color: var(--ink-soft);">Model price ($/1k tokens)</label>
+            <input id="price" class="calc-input" type="number" step="0.01" value="0.03" style="width: 100%;" />
+          </div>
+          <button type="submit" style="font-family: var(--font-sans); font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--ink); background: var(--ground); border: 1px solid var(--rule); border-radius: 0.25rem; padding: 0.3rem 0.8rem; cursor: pointer;">Calculate</button>
+        </form>
+        <div id="calc-output"></div>
+      </section>
+
+      <section>
+        <h2>9. Rate limit handling</h2>
+        <ul>
+          <li>Free router requests are subject to OpenRouter rate limits. Expect <strong>429</strong> errors under load.</li>
+          <li>Read the <code>Retry-After</code> header (seconds) and pass it to a delay before retrying.</li>
+          <li>Implement exponential backoff in scripts: 1s, 2s, 4s, 8s, max 30s.</li>
+          <li>Cache responses when the same prompt recurs to avoid redundant calls.</li>
+          <li>If a task is urgent or long-running, temporarily switch with <code>/models</code> to a paid model you're comfortable with.</li>
+        </ul>
+      </section>
+
+      <section>
+        <h2>10. Starter projects</h2>
+        <p>Small projects well-suited for free-router experimentation:</p>
+
+        <div class="project-card">
+          <h3>README Explainer</h3>
+          <p>Read a project's README and generate a 2-paragraph summary plus setup checklist.</p>
+          <pre><code>opencode -m openrouter/openrouter/free
+"Read the README and summarize how to run this project"</code></pre>
+        </div>
+
+        <div class="project-card">
+          <h3>Code Refactor</h3>
+          <p>Give the free router a single function and ask it to improve readability without changing behavior.</p>
+          <pre><code>opencode -m openrouter/openrouter/free
+"Refactor this to be more readable — keep the same output: refactor_me.py"</code></pre>
+        </div>
+
+        <div class="project-card">
+          <h3>CSS Animation Generator</h3>
+          <p>Ask for a small CSS snippet and a demo HTML file for a specific animation effect.</p>
+          <pre><code>opencode -m openrouter/openrouter/free
+"Create a pure-CSS shimmer sweep effect on a text label and a demo HTML file"</code></pre>
+        </div>
+
+        <div class="project-card">
+          <h3>Data Formatter</h3>
+          <p>Convert a CSV to JSON, normalize field names, or extract columns from a data file.</p>
+          <pre><code>opencode -m openrouter/openrouter/free
+"Normalize column names to camelCase and output JSON: data/sample.csv"</code></pre>
+        </div>
+
+        <div class="project-card">
+          <h3>CLI Wrapper</h3>
+          <p>Build a tiny CLI tool that wraps a public API (e.g., a weather or exchange-rate endpoint).</p>
+          <pre><code>opencode -m openrouter/openrouter/free
+"Build a CLI that calls the Open-Meteo API and prints the forecast for a city arg"</code></pre>
+        </div>
+      </section>
+
+      <section>
         <h2>If it fails</h2>
         <ul>
-          <li>A model-not-found error usually means the model ID or config needs checking. Confirm the full ID above and restart OpenCode.</li>
-          <li>For an authentication error, reconnect your OpenRouter key with <code>/connect</code>.</li>
-          <li>Free inference still has request limits. A coding task can use several requests. If you get a 429, wait before retrying and follow any retry delay in the error.</li>
+          <li>A model-not-found error: confirm the full ID <code>openrouter/openrouter/free</code> above and restart OpenCode.</li>
+          <li>An authentication error: reconnect your OpenRouter key with <code>/connect</code>.</li>
+          <li>Rate limit (429): wait before retrying and follow the retry delay in the error headers.</li>
+          <li>Output too long: add a length or complexity constraint to the prompt.</li>
         </ul>
         <p>Docs checked September 30, 2026.</p>
       </section>
     </main>
+    <script is:inline src="/demo.js"></script>
   </body>
 </html>
