@@ -1,11 +1,41 @@
 ---
+import { models, sections } from "../data/capabilities.json";
 ---
 <!doctype html>
 <html lang="en" class="font-serif antialiased">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>OC-Free-Model-Video</title>
+    <title>OC-Free-Model-Video — Use OpenRouter's Free Router in OpenCode</title>
+    <meta name="description" content="Step-by-step tutorial: install OpenCode, connect OpenRouter, and use the free router for small coding tasks and experiments. Styled like drjoshcsimmons.com." />
+    <meta property="og:title" content="OC-Free-Model-Video" />
+    <meta property="og:description" content="Use OpenRouter's free router in OpenCode for small coding tasks and experiments. The model can change between requests." />
+    <meta property="og:url" content="https://oc-free-model-video.vercel.app" />
+    <meta property="og:type" content="website" />
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content="OC-Free-Model-Video" />
+    <meta name="twitter:description" content="Use OpenRouter's free router in OpenCode for small coding tasks and experiments." />
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "HowTo",
+        "name": "Using OpenRouter's Free Router in OpenCode",
+        "description": "Install OpenCode, connect OpenRouter, set the free router as default, and use it for small coding tasks.",
+        "totalTime": "PT5M",
+        "estimatedCost": {
+          "@type": "MonetaryAmount",
+          "currency": "USD",
+          "value": "0"
+        },
+        "step": [
+          { "@type": "HowToStep", "position": 1, "name": "Install OpenCode", "text": "Run: brew install anomalyco/tap/opencode" },
+          { "@type": "HowToStep", "position": 2, "name": "Connect OpenRouter key", "text": "Launch opencode, type /connect, choose OpenRouter, paste key." },
+          { "@type": "HowToStep", "position": 3, "name": "Set free router as default", "text": "Search and select openrouter/openrouter/free in the model picker." },
+          { "@type": "HowToStep", "position": 4, "name": "Test it", "text": "Run opencode models openrouter, then test with a simple prompt." },
+          { "@type": "HowToStep", "position": 5, "name": "Use in a project", "text": "Start opencode -m openrouter/openrouter/free and try a small task." }
+        ]
+      }
+    </script>
     <style>
       :root {
         --ground: #f2efe8;
@@ -21,10 +51,36 @@
         --font-mono: "JetBrainsMono", "SF Mono", Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
       }
 
+      [data-theme="dark"] {
+        --ground: #171410;
+        --ink: #e7e2d8;
+        --ink-muted: #a39b8d;
+        --ink-soft: #837b6f;
+        --rule: #f2efe81a;
+        --accent: #b3a1d6;
+        --muted: #211d18;
+      }
+
+      @media (prefers-color-scheme: dark) {
+        :root:not([data-theme="light"]) {
+          --ground: #171410;
+          --ink: #e7e2d8;
+          --ink-muted: #a39b8d;
+          --ink-soft: #837b6f;
+          --rule: #f2efe81a;
+          --accent: #b3a1d6;
+          --muted: #211d18;
+        }
+      }
+
       *, *::before, *::after {
         box-sizing: border-box;
         margin: 0;
         padding: 0;
+      }
+
+      html {
+        scroll-behavior: smooth;
       }
 
       html, body {
@@ -44,11 +100,96 @@
         flex-direction: column;
       }
 
-      main {
-        flex: 1;
-        max-width: 56rem;
+      .layout {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 0;
+        max-width: 72rem;
         margin: 0 auto;
         padding: 1.5rem;
+        width: 100%;
+      }
+
+      @media (min-width: 64rem) {
+        .layout {
+          grid-template-columns: 16rem 1fr;
+          gap: 3rem;
+          padding: 1.5rem;
+        }
+      }
+
+      .toc {
+        position: sticky;
+        top: 1.5rem;
+        align-self: start;
+        max-height: calc(100vh - 3rem);
+        overflow-y: auto;
+      }
+
+      .toc-title {
+        font-family: var(--font-sans);
+        font-size: 0.7rem;
+        text-transform: uppercase;
+        letter-spacing: 0.12em;
+        color: var(--ink-soft);
+        margin-bottom: 0.75rem;
+      }
+
+      .toc a {
+        display: block;
+        font-family: var(--font-sans);
+        font-size: 0.78rem;
+        color: var(--ink-muted);
+        padding: 0.3rem 0;
+        border-bottom: 1px solid var(--rule);
+        transition: color 0.14s;
+        line-height: 1.4;
+      }
+
+      .toc a:hover {
+        color: var(--accent);
+        border-bottom-color: var(--accent);
+      }
+
+      .toc a.active {
+        color: var(--accent);
+        font-weight: 500;
+      }
+
+      .toc-toggle {
+        display: none;
+        margin-bottom: 1rem;
+        font-family: var(--font-sans);
+        font-size: 0.75rem;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        color: var(--ink-muted);
+        background: transparent;
+        border: 1px solid var(--rule);
+        border-radius: 0.25rem;
+        padding: 0.3rem 0.6rem;
+        cursor: pointer;
+      }
+
+      @media (max-width: 63.99rem) {
+        .toc {
+          position: static;
+          max-height: none;
+          margin-bottom: 2rem;
+        }
+        .toc-body {
+          display: none;
+        }
+        .toc-body.open {
+          display: block;
+        }
+        .toc-toggle {
+          display: inline-block;
+        }
+      }
+
+      main {
+        min-width: 0;
       }
 
       h1 {
@@ -64,11 +205,17 @@
       .subtitle {
         color: var(--accent);
         font-style: italic;
+        font-family: var(--font-serif);
+        font-size: 1.125rem;
+        line-height: 1.7;
+        max-width: 42ch;
+        margin-bottom: 1.25rem;
       }
 
       section {
         border-top: 1px solid var(--rule);
         padding-top: 1.25rem;
+        scroll-margin-top: 1rem;
       }
 
       section:first-child {
@@ -152,7 +299,28 @@
         margin: 2rem 0;
       }
 
-      /* === New components === */
+      /* === Components === */
+
+      .theme-toggle {
+        position: fixed;
+        top: 1rem;
+        right: 1rem;
+        z-index: 50;
+        background: var(--muted);
+        border: 1px solid var(--rule);
+        border-radius: 0.3rem;
+        padding: 0.35rem 0.5rem;
+        font-family: var(--font-mono);
+        font-size: 0.75rem;
+        color: var(--ink-muted);
+        cursor: pointer;
+        transition: color 0.14s;
+      }
+
+      .theme-toggle:hover {
+        color: var(--accent);
+        border-color: var(--accent);
+      }
 
       .demo-box {
         background: var(--muted);
@@ -178,19 +346,6 @@
         margin: 0.2rem;
       }
 
-      .cap-badge {
-        display: inline-block;
-        font-family: var(--sans);
-        font-size: 0.7rem;
-        text-transform: uppercase;
-        letter-spacing: 0.08em;
-        padding: 0.15rem 0.5rem;
-        margin-left: 0.3rem;
-        border-radius: 0.2rem;
-      }
-      .cap-yes { background: var(--muted); color: var(--ink); }
-      .cap-no { background: var(--ground); color: var(--ink-soft); }
-
       table.cap-table {
         width: 100%;
         border-collapse: collapse;
@@ -215,15 +370,6 @@
         color: var(--ink-soft);
       }
       table.cap-table tr:hover td { background: var(--ground); }
-
-      .calc-result {
-        font-family: var(--font-mono);
-        font-size: 1.5rem;
-        font-weight: 500;
-        color: var(--accent);
-        text-align: center;
-        margin: 1rem 0;
-      }
 
       .calc-input {
         background: var(--ground);
@@ -258,173 +404,189 @@
         gap: 0.5rem;
         margin: 1rem 0;
       }
-
-      @media (prefers-color-scheme: dark) {
-        :root {
-          --ground: #171410;
-          --ink: #e7e2d8;
-          --ink-muted: #a39b8d;
-          --ink-soft: #837b6f;
-          --rule: #f2efe81a;
-          --accent: #b3a1d6;
-          --muted: #211d18;
-        }
-      }
     </style>
   </head>
   <body>
-    <main>
+    <button class="theme-toggle" onclick="toggleTheme()" title="Toggle dark/light">Aa</button>
 
-      <h1>OC-Free-Model-Video</h1>
-      <p class="subtitle">Use OpenRouter's free router in OpenCode for small coding tasks and experiments.</p>
+    <div class="layout">
+      <nav class="toc">
+        <button class="toc-toggle" onclick="this.nextElementSibling.classList.toggle('open')">Index</button>
+        <div class="toc-body" id="toc-body">
+          <p class="toc-title">On this page</p>
+          {
+            sections.map((s: { id: string; title: string }) => (
+              <a href={`#${s.id}`} class="toc-link">{s.id}. {s.title}</a>
+            )
+          )}
+        </div>
+      </nav>
 
-      <section>
-        <h2>1. Install OpenCode</h2>
-        <p>On macOS with Homebrew, run:</p>
-        <pre><code>brew install anomalyco/tap/opencode</code></pre>
-        <p>If you already have OpenCode, skip this step. Other platforms can use the installation guide.</p>
-      </section>
+      <main>
+        <h1>OC-Free-Model-Video</h1>
+        <p class="subtitle">Use OpenRouter's free router in OpenCode for small coding tasks and experiments.</p>
 
-      <section>
-        <h2>2. Connect your OpenRouter key</h2>
-        <p>Create an API key at OpenRouter. Then launch OpenCode:</p>
-        <pre><code>opencode</code></pre>
-        <p>Inside its terminal interface, type <code>/connect</code>, choose <strong>OpenRouter</strong>, and paste the key. OpenCode saves provider credentials separately from your config. See the provider instructions.</p>
-      </section>
+        <section id="1">
+          <h2>1. Install OpenCode</h2>
+          <p>On macOS with Homebrew, run:</p>
+          <pre><code>brew install anomalyco/tap/opencode</code></pre>
+          <p>If you already have OpenCode, skip this step. Other platforms can use the installation guide.</p>
+        </section>
 
-      <section>
-        <h2>3. Set the free router as your default</h2>
-        <p>Search and select it in the model picker.</p>
-      </section>
+        <section id="2">
+          <h2>2. Connect your OpenRouter key</h2>
+          <p>Create an API key at OpenRouter. Then launch OpenCode:</p>
+          <pre><code>opencode</code></pre>
+          <p>Inside its terminal interface, type <code>/connect</code>, choose <strong>OpenRouter</strong>, and paste the key. OpenCode saves provider credentials separately from your config.</p>
+        </section>
 
-      <section>
-        <h2>4. Test it</h2>
-        <p>Exit OpenCode and run:</p>
-        <pre><code>opencode models openrouter
+        <section id="3">
+          <h2>3. Set the free router as your default</h2>
+          <p>Search and select <code>openrouter/openrouter/free</code> in the model picker.</p>
+        </section>
+
+        <section id="4">
+          <h2>4. Test it</h2>
+          <p>Exit OpenCode and run:</p>
+          <pre><code>opencode models openrouter
 opencode run -m openrouter/openrouter/free "Reply with: setup works"</code></pre>
-        <p>The model list should include <code>openrouter/openrouter/free</code>. A reply confirms that authentication and routing work.</p>
-      </section>
+          <p>The model list should include <code>openrouter/openrouter/free</code>. A reply confirms that authentication and routing work.</p>
+        </section>
 
-      <section>
-        <h2>5. Use it in a project</h2>
-        <p>From your project directory, start:</p>
-        <pre><code>opencode -m openrouter/openrouter/free</code></pre>
-        <p>Try a small task: "Read the README and explain how to run this project." Use <code>/models</code> to switch models later.</p>
-      </section>
+        <section id="5">
+          <h2>5. Use it in a project</h2>
+          <p>From your project directory, start:</p>
+          <pre><code>opencode -m openrouter/openrouter/free</code></pre>
+          <p>Try a small task: "Read the README and explain how to run this project." Use <code>/models</code> to switch models later.</p>
+        </section>
 
-      <section>
-        <h2>6. Model capability reference</h2>
-        <p>The free router dynamically selects models based on your request. Here are the capabilities you can expect from models commonly rotated in:</p>
-        <table class="cap-table">
-          <thead>
-            <tr><th style="text-align:center">Model</th><th style="text-align:center">Tool Calling</th><th style="text-align:center">Vision</th><th style="text-align:center">Context</th><th style="text-align:center">Typical Use</th></tr>
-          </thead>
-          <tbody>
-            <tr><td>Mistral 7B</td><td class="cap-yes">Yes</td><td class="cap-no">No</td><td>8K</td><td>Simple tasks</td></tr>
-            <tr><td>Gemma 2 9B</td><td class="cap-yes">Yes</td><td class="cap-no">No</td><td>8K</td><td>Coding help</td></tr>
-            <tr><td>Qwen 2.5 7B</td><td class="cap-yes">Yes</td><td class="cap-no">No</td><td>32K</td><td>Long context</td></tr>
-            <tr><td>Phi-3 Mini</td><td class="cap-yes">Yes</td><td class="cap-yes">Yes</td><td>4K</td><td>Multimodal</td></tr>
-          </tbody>
-        </table>
-        <p>Because the model can change between requests, always test critical capabilities like tool calling in your specific session. Use <code>/models</code> to pin to a specific model when you need consistency.</p>
-      </section>
+        <section id="6">
+          <h2>6. Model capability reference</h2>
+          <p>The free router dynamically selects models based on your request. Here are the capabilities you can expect from models commonly rotated in:</p>
+          <table class="cap-table">
+            <thead>
+              <tr>
+                <th>Model</th>
+                <th>Tool Calling</th>
+                <th>Vision</th>
+                <th>Context</th>
+                <th>Typical Use</th>
+              </tr>
+            </thead>
+            <tbody>
+              {
+                models.map((m: { name: string; toolCalling: boolean; vision: boolean; context: string; use: string }) => (
+                  <tr>
+                    <td>{m.name}</td>
+                    <td>{m.toolCalling ? "Yes" : "No"}</td>
+                    <td>{m.vision ? "Yes" : "No"}</td>
+                    <td>{m.context}</td>
+                    <td>{m.use}</td>
+                  </tr>
+                )
+              )}
+            </tbody>
+          </table>
+          <p>Because the model can change between requests, always test critical capabilities like tool calling in your specific session. Use <code>/models</code> to pin to a specific model when you need consistency.</p>
+        </section>
 
-      <section>
-        <h2>7. Free router demo</h2>
-        <p>Type a sample prompt below to see how the free router would categorize it and which model it might select:</p>
-        <div class="demo-box">
-          <label for="task-input" style="font-family: var(--font-sans); font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--ink-soft);">Prompt</label><br />
-          <input id="task-input" type="text" placeholder="e.g. fix this bug" style="width: 100%; background: var(--ground); border: 1px solid var(--rule); border-radius: 0.25rem; padding: 0.4rem; font-family: var(--font-sans); color: var(--ink); margin: 0.5rem 0 1rem;" />
-          <button onclick="handleDemo()" style="font-family: var(--font-sans); font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--ink); background: var(--ground); border: 1px solid var(--rule); border-radius: 0.25rem; padding: 0.3rem 0.8rem; cursor: pointer;">Analyze</button>
-          <div id="demo-output" style="margin-top: 1rem;"></div>
-        </div>
-      </section>
-
-      <section>
-        <h2>8. Cost savings calculator</h2>
-        <p>Estimate your monthly savings by using the free router instead of a paid model like GPT-4o:</p>
-        <form id="calc-form" onsubmit="return handleCalc(event)">
-          <div class="grid-2col">
-            <div>
-              <label style="font-family: var(--font-mono); font-size: 0.75rem; color: var(--ink-soft);">Requests / day</label>
-              <input id="req-day" class="calc-input" type="number" value="20" />
-            </div>
-            <div>
-              <label style="font-family: var(--font-mono); font-size: 0.75rem; color: var(--ink-soft);">Tokens / req</label>
-              <input id="tok-req" class="calc-input" type="number" value="1500" />
-            </div>
+        <section id="7">
+          <h2>7. Free router demo</h2>
+          <p>Type a sample prompt below to see how the free router would categorize it and which model it might select:</p>
+          <div class="demo-box">
+            <label for="task-input" style="font-family: var(--font-sans); font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--ink-soft);">Prompt</label><br />
+            <input id="task-input" type="text" placeholder="e.g. fix this bug" style="width: 100%; background: var(--ground); border: 1px solid var(--rule); border-radius: 0.25rem; padding: 0.4rem; font-family: var(--font-sans); color: var(--ink); margin: 0.5rem 0 1rem;" />
+            <button onclick="handleDemo()" style="font-family: var(--font-sans); font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--ink); background: var(--ground); border: 1px solid var(--rule); border-radius: 0.25rem; padding: 0.3rem 0.8rem; cursor: pointer;">Analyze</button>
+            <div id="demo-output" style="margin-top: 1rem;"></div>
           </div>
-          <div style="margin: 1rem 0;">
-            <label style="font-family: var(--font-mono); font-size: 0.75rem; color: var(--ink-soft);">Model price ($/1k tokens)</label>
-            <input id="price" class="calc-input" type="number" step="0.01" value="0.03" style="width: 100%;" />
-          </div>
-          <button type="submit" style="font-family: var(--font-sans); font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--ink); background: var(--ground); border: 1px solid var(--rule); border-radius: 0.25rem; padding: 0.3rem 0.8rem; cursor: pointer;">Calculate</button>
-        </form>
-        <div id="calc-output"></div>
-      </section>
+        </section>
 
-      <section>
-        <h2>9. Rate limit handling</h2>
-        <ul>
-          <li>Free router requests are subject to OpenRouter rate limits. Expect <strong>429</strong> errors under load.</li>
-          <li>Read the <code>Retry-After</code> header (seconds) and pass it to a delay before retrying.</li>
-          <li>Implement exponential backoff in scripts: 1s, 2s, 4s, 8s, max 30s.</li>
-          <li>Cache responses when the same prompt recurs to avoid redundant calls.</li>
-          <li>If a task is urgent or long-running, temporarily switch with <code>/models</code> to a paid model you're comfortable with.</li>
-        </ul>
-      </section>
+        <section id="8">
+          <h2>8. Cost savings calculator</h2>
+          <p>Estimate your monthly savings by using the free router instead of a paid model:</p>
+          <form id="calc-form" onsubmit="return handleCalc(event)">
+            <div class="grid-2col">
+              <div>
+                <label style="font-family: var(--font-mono); font-size: 0.75rem; color: var(--ink-soft);">Requests / day</label>
+                <input id="req-day" class="calc-input" type="number" value="20" />
+              </div>
+              <div>
+                <label style="font-family: var(--font-mono); font-size: 0.75rem; color: var(--ink-soft);">Tokens / req</label>
+                <input id="tok-req" class="calc-input" type="number" value="1500" />
+              </div>
+            </div>
+            <div style="margin: 1rem 0;">
+              <label style="font-family: var(--font-mono); font-size: 0.75rem; color: var(--ink-soft);">Model price ($/1k tokens)</label>
+              <input id="price" class="calc-input" type="number" step="0.01" value="0.03" style="width: 100%;" />
+            </div>
+            <button type="submit" style="font-family: var(--font-sans); font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--ink); background: var(--ground); border: 1px solid var(--rule); border-radius: 0.25rem; padding: 0.3rem 0.8rem; cursor: pointer;">Calculate</button>
+          </form>
+          <div id="calc-output"></div>
+        </section>
 
-      <section>
-        <h2>10. Starter projects</h2>
-        <p>Small projects well-suited for free-router experimentation:</p>
+        <section id="9">
+          <h2>9. Rate limit handling</h2>
+          <ul>
+            <li>Free router requests are subject to OpenRouter rate limits. Expect <strong>429</strong> errors under load.</li>
+            <li>Read the <code>Retry-After</code> header (seconds) and pass it to a delay before retrying.</li>
+            <li>Implement exponential backoff in scripts: 1s, 2s, 4s, 8s, max 30s.</li>
+            <li>Cache responses when the same prompt recurs to avoid redundant calls.</li>
+            <li>If a task is urgent or long-running, temporarily switch with <code>/models</code> to a paid model you're comfortable with.</li>
+          </ul>
+        </section>
 
-        <div class="project-card">
-          <h3>README Explainer</h3>
-          <p>Read a project's README and generate a 2-paragraph summary plus setup checklist.</p>
-          <pre><code>opencode -m openrouter/openrouter/free
+        <section id="10">
+          <h2>10. Starter projects</h2>
+          <p>Small projects well-suited for free-router experimentation:</p>
+
+          <div class="project-card">
+            <h3>README Explainer</h3>
+            <p>Read a project's README and generate a 2-paragraph summary plus setup checklist.</p>
+            <pre><code>opencode -m openrouter/openrouter/free
 "Read the README and summarize how to run this project"</code></pre>
-        </div>
+          </div>
 
-        <div class="project-card">
-          <h3>Code Refactor</h3>
-          <p>Give the free router a single function and ask it to improve readability without changing behavior.</p>
-          <pre><code>opencode -m openrouter/openrouter/free
+          <div class="project-card">
+            <h3>Code Refactor</h3>
+            <p>Give the free router a single function and ask it to improve readability without changing behavior.</p>
+            <pre><code>opencode -m openrouter/openrouter/free
 "Refactor this to be more readable — keep the same output: refactor_me.py"</code></pre>
-        </div>
+          </div>
 
-        <div class="project-card">
-          <h3>CSS Animation Generator</h3>
-          <p>Ask for a small CSS snippet and a demo HTML file for a specific animation effect.</p>
-          <pre><code>opencode -m openrouter/openrouter/free
+          <div class="project-card">
+            <h3>CSS Animation Generator</h3>
+            <p>Ask for a small CSS snippet and a demo HTML file for a specific animation effect.</p>
+            <pre><code>opencode -m openrouter/openrouter/free
 "Create a pure-CSS shimmer sweep effect on a text label and a demo HTML file"</code></pre>
-        </div>
+          </div>
 
-        <div class="project-card">
-          <h3>Data Formatter</h3>
-          <p>Convert a CSV to JSON, normalize field names, or extract columns from a data file.</p>
-          <pre><code>opencode -m openrouter/openrouter/free
+          <div class="project-card">
+            <h3>Data Formatter</h3>
+            <p>Convert a CSV to JSON, normalize field names, or extract columns from a data file.</p>
+            <pre><code>opencode -m openrouter/openrouter/free
 "Normalize column names to camelCase and output JSON: data/sample.csv"</code></pre>
-        </div>
+          </div>
 
-        <div class="project-card">
-          <h3>CLI Wrapper</h3>
-          <p>Build a tiny CLI tool that wraps a public API (e.g., a weather or exchange-rate endpoint).</p>
-          <pre><code>opencode -m openrouter/openrouter/free
+          <div class="project-card">
+            <h3>CLI Wrapper</h3>
+            <p>Build a tiny CLI tool that wraps a public API (e.g., a weather or exchange-rate endpoint).</p>
+            <pre><code>opencode -m openrouter/openrouter/free
 "Build a CLI that calls the Open-Meteo API and prints the forecast for a city arg"</code></pre>
-        </div>
-      </section>
+          </div>
+        </section>
 
-      <section>
-        <h2>If it fails</h2>
-        <ul>
-          <li>A model-not-found error: confirm the full ID <code>openrouter/openrouter/free</code> above and restart OpenCode.</li>
-          <li>An authentication error: reconnect your OpenRouter key with <code>/connect</code>.</li>
-          <li>Rate limit (429): wait before retrying and follow the retry delay in the error headers.</li>
-          <li>Output too long: add a length or complexity constraint to the prompt.</li>
-        </ul>
-        <p>Docs checked September 30, 2026.</p>
-      </section>
-    </main>
+        <section id="11">
+          <h2>11. If it fails</h2>
+          <ul>
+            <li>A model-not-found error: confirm the full ID <code>openrouter/openrouter/free</code> above and restart OpenCode.</li>
+            <li>An authentication error: reconnect your OpenRouter key with <code>/connect</code>.</li>
+            <li>Rate limit (429): wait before retrying and follow the retry delay in the error headers.</li>
+            <li>Output too long: add a length or complexity constraint to the prompt.</li>
+          </ul>
+          <p>Docs checked September 30, 2026.</p>
+        </section>
+      </main>
+    </div>
     <script is:inline src="/demo.js"></script>
   </body>
 </html>

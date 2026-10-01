@@ -1,0 +1,21 @@
+{
+  "models": [
+    { "name": "Mistral 7B", "toolCalling": true, "vision": false, "context": "8K", "use": "Simple tasks" },
+    { "name": "Gemma 2 9B", "toolCalling": true, "vision": false, "context": "8K", "use": "Coding help" },
+    { "name": "Qwen 2.5 7B", "toolCalling": true, "vision": false, "context": "32K", "use": "Long context" },
+    { "name": "Phi-3 Mini", "toolCalling": true, "vision": true, "context": "4K", "use": "Multimodal" }
+  ],
+  "sections": [
+    { "id": "1", "title": "Install OpenCode" },
+    { "id": "2", "title": "Connect your OpenRouter key" },
+    { "id": "3", "title": "Set the free router as your default" },
+    { "id": "4", "title": "Test it" },
+    { "id": "5", "title": "Use it in a project" },
+    { "id": "6", "title": "Model capability reference" },
+    { "id": "7", "title": "Free router demo" },
+    { "id": "8", "title": "Cost savings calculator" },
+    { "id": "9", "title": "Rate limit handling" },
+    { "id": "10", "title": "Starter projects" },
+    { "id": "11", "title": "If it fails" }
+  ]
+}

@@ -1,3 +1,4 @@
+// Free router demo — simulates model selection based on prompt characteristics
 const modelMap = {
   "bug": ["Mistral 7B", "Gemma 2 9B"],
   "fix": ["Mistral 7B", "Gemma 2 9B"],
@@ -35,3 +36,34 @@ window.handleCalc = function(e) {
     '<p style="font-family:var(--font-serif);font-size:1.125rem;line-height:1.7;max-width:42ch;">Estimated monthly cost with a paid model: <strong>$' + cost + '</strong></p><p style="font-family:var(--font-serif);font-size:1.125rem;line-height:1.7;max-width:42ch;color:var(--ink-muted);">With the free router the cost is $0 — but remember rate limits still apply.</p>';
   return false;
 };
+
+// Theme toggle
+window.toggleTheme = function() {
+  const root = document.documentElement;
+  const isDark = root.getAttribute("data-theme") === "dark";
+  root.setAttribute("data-theme", isDark ? "light" : "dark");
+  localStorage.setItem("theme", isDark ? "light" : "dark");
+};
+
+// TOC scroll spy
+window.addEventListener("DOMContentLoaded", function() {
+  const links = document.querySelectorAll(".toc-link");
+  const sections = [];
+  links.forEach(function(link) {
+    const id = link.getAttribute("href").replace("#", "");
+    const el = document.getElementById(id);
+    if (el) sections.push({ id: id, el: el, link: link });
+  });
+
+  function onScroll() {
+    const scrollY = window.scrollY + 100;
+    let active = sections[0];
+    for (const s of sections) {
+      if (s.el.offsetTop <= scrollY) active = s;
+    }
+    links.forEach(function(l) { l.classList.remove("active"); });
+    if (active) active.link.classList.add("active");
+  }
+  window.addEventListener("scroll", onScroll);
+  onScroll();
+});
